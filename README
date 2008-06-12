@@ -1,13 +1,23 @@
-RandomItems
-===========
+*random_items* is a Rails plugin which allows to pick random items from an ActiveRecord model (without using <tt>:order => "RAND()"</tt> which is not a good idea in terms of performance).
 
-Introduction goes here.
+The interface is almost the same as that of <tt>ActiveRecord::Base.find</tt>.
+
+Some examples:
+
+Picking a random item:
+
+  Model.random(:first)
+
+Picking 5 random items:
+
+  Model.random(:all, :limit => 5)
+
+Pickings a random item using standard <tt>ActiveRecord::Base.find</tt> options, such as <tt>:include</tt>
+
+  Model.random(:first, :include => :relation)
 
 
-Example
-=======
-
-Example goes here.
+In that last case, you are expected not to use options which don't make sense, such as <tt>:order</tt> =;-)
 
 
-Copyright (c) 2008 [name of plugin creator], released under the MIT license
+Copyright (c) 2008 Sergio Gil, released under the MIT license

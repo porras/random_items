@@ -1,13 +1,22 @@
 class ActiveRecord::Base
   
-  # More or less the same interface as ActiveRecord::Base.find
+  # The interface is almost the same as that of <tt>ActiveRecord::Base.find</tt>.
+  # 
   # Some examples:
-  #   Model.random(:first)                          # picks a random item
-  #   Model.random(:all, :limit => 5)               # picks 5 random items
-  #   Model.random(:first, :include => :relation)   # picks a random item using standard
-  #                                                 # AR::B.find options, such as :include
-  # In that last case, you are expected not to use options which don't make sense, such as :order =;-)
-  #
+  # 
+  # Picking a random item:
+  # 
+  #   Model.random(:first)
+  # 
+  # Picking 5 random items:
+  # 
+  #   Model.random(:all, :limit => 5)
+  # 
+  # Pickings a random item using standard <tt>ActiveRecord::Base.find</tt> options, such as <tt>:include</tt>
+  # 
+  #   Model.random(:first, :include => :relation)
+  # 
+  # In that last case, you are expected not to use options which don't make sense, such as <tt>:order</tt> =;-)
   def self.random(items, options = {})
     if items == :first
       random_first(options)
