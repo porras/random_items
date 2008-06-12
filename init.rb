@@ -1,1 +1,1 @@
-# Include hook code here
+require 'random_items'
