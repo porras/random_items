@@ -40,6 +40,14 @@ class RandomItemsTest < Test::Unit::TestCase
         Model.random(:first, :include => :other_model)        
       end
     end
+    context "with conditions" do
+      should "forward them to count() and find()" do
+        Model.expects(:count).with({:conditions => { :column => "value" }}).returns(10)
+        Model.expects(:rand).with(9).returns(1)
+        Model.expects(:find).with(:first, { :limit => 1, :offset => 1, :conditions => {:column => "value" } })
+        Model.random(:first, :conditions => { :column => "value"})
+      end
+    end
   end
   
   context "random(:all)" do

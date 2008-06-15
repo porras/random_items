@@ -36,7 +36,7 @@ class ActiveRecord::Base
   end
   
   def self.random_first(options = {})
-    case c = self.count
+    case c = self.count(:conditions => options[:conditions])
     when 0: nil
     when 1: find(:first)
     else    find(:first, options.merge(:limit => 1, :offset => rand(c - 1)))
