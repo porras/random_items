@@ -32,11 +32,13 @@ class ActiveRecord::Base
   def self.random_all(options = {})
     options[:limit] ||= 1
     limit = options.delete(:limit)
-    (1..limit.to_i).to_a.map { random_first(options) }
+    count = self.count(:conditions => options[:conditions])
+    (1..limit.to_i).to_a.map { random_first(options.merge({:count => count})) }.compact
   end
   
   def self.random_first(options = {})
-    case c = self.count(:conditions => options[:conditions])
+    options[:count] ||= self.count(:conditions => options[:conditions])
+    case c = options.delete(:count)
     when 0: nil
     when 1: find(:first)
     else    find(:first, options.merge(:limit => 1, :offset => rand(c)))

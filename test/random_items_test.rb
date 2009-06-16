@@ -48,22 +48,40 @@ class RandomItemsTest < Test::Unit::TestCase
         Model.random(:first, :conditions => { :column => "value"})
       end
     end
+    context "with count option" do
+      should "use the given count value instead of querying" do
+        Model.expects(:count).never
+        Model.expects(:rand).with(10).returns(1)
+        Model.expects(:find).with(:first, { :limit => 1, :offset => 1, :conditions => {:column => "value" } })
+        Model.random(:first, :count => 10, :conditions => { :column => "value"})
+      end
+    end
   end
   
   context "random(:all)" do
     should "find :limit random items" do
       Model.expects(:random_first).times(3)
+      Model.expects(:count).once
       Model.random(:all, :limit => 3)      
+    end
+    context "without elements" do
+      should "return an empty array" do
+        Model.stubs(:random_first).returns(nil)
+        Model.expects(:count).once
+        assert_equal [], Model.random(:all, { :limit => 3 })
+      end
     end
     context "with no :limit" do
       should "default to 1" do
         Model.expects(:random_first)
+        Model.expects(:count).once
         Model.random(:all)        
       end
     end
     context "with options" do
       should "forward them to random_first" do
-        Model.expects(:random_first).times(3).with(:include => :other_model)
+        Model.expects(:random_first).times(3).with(:include => :other_model, :count => 10)
+        Model.expects(:count).returns(10).once
         Model.random(:all, :limit => 3, :include => :other_model)
       end
     end
