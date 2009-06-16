@@ -39,7 +39,7 @@ class ActiveRecord::Base
     case c = self.count(:conditions => options[:conditions])
     when 0: nil
     when 1: find(:first)
-    else    find(:first, options.merge(:limit => 1, :offset => rand(c - 1)))
+    else    find(:first, options.merge(:limit => 1, :offset => rand(c)))
     end
   end
   

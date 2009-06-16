@@ -12,7 +12,7 @@ class RandomItemsTest < Test::Unit::TestCase
   context "random(:first)" do
     should "find a random item" do
       Model.expects(:count).returns(10)
-      Model.expects(:rand).with(9).returns(1)
+      Model.expects(:rand).with(10).returns(1)
       Model.expects(:find).with(:first, { :limit => 1, :offset => 1 })
       Model.random(:first)      
     end
@@ -35,7 +35,7 @@ class RandomItemsTest < Test::Unit::TestCase
     context "with options" do
       should "forward them to find()" do
         Model.expects(:count).returns(10)
-        Model.expects(:rand).with(9).returns(1)
+        Model.expects(:rand).with(10).returns(1)
         Model.expects(:find).with(:first, { :limit => 1, :offset => 1, :include => :other_model })
         Model.random(:first, :include => :other_model)        
       end
@@ -43,7 +43,7 @@ class RandomItemsTest < Test::Unit::TestCase
     context "with conditions" do
       should "forward them to count() and find()" do
         Model.expects(:count).with({:conditions => { :column => "value" }}).returns(10)
-        Model.expects(:rand).with(9).returns(1)
+        Model.expects(:rand).with(10).returns(1)
         Model.expects(:find).with(:first, { :limit => 1, :offset => 1, :conditions => {:column => "value" } })
         Model.random(:first, :conditions => { :column => "value"})
       end
